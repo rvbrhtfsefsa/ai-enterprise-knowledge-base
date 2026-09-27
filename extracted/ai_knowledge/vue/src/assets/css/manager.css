@@ -1,0 +1,97 @@
+.manager-container {
+    background-color: #f5f7fa;
+    min-height: 100vh;
+}
+
+.manager-header {
+    height: 60px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #e8ecf1;
+}
+
+.manager-header-left {
+    background-color: #ffffff;
+    width: 220px;
+    height: 100%;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.manager-header-left img {
+    width: 30px;
+    height: 30px;
+}
+
+.manager-header-left .title {
+    font-weight: 600;
+    font-size: 18px;
+    margin-left: 10px;
+    color: #1a1a1a;
+}
+
+.manager-header-center {
+    flex: 1;
+}
+
+.manager-main-left {
+    width: 220px;
+    background-color: #ffffff;
+    min-height: calc(100vh - 60px);
+}
+
+.manager-main-right {
+    flex: 1;
+    width: 0;
+    background-color: #f5f7fa;
+    padding: 16px;
+}
+
+
+/* Element-Plus 样式覆盖 */
+.el-menu {
+    width: 220px;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+}
+:deep(.el-sub-menu__title) {
+    color: #4a4a4a !important;
+    height: 50px;
+    line-height: 50px;
+    background-color: transparent !important;
+}
+.el-sub-menu__title:hover {
+    background-color: #f0f2f5 !important;
+}
+.el-menu-item {
+    color: #4a4a4a;
+    height: 50px;
+    line-height: 50px;
+    background-color: transparent !important;
+}
+.el-menu--inline .el-menu-item {
+    padding-left: 50px !important;
+}
+.el-menu .is-active {
+    color: #2563eb !important;
+    background-color: #eff6ff !important;
+}
+.el-menu-item:not(.is-active):hover {
+    color: #2563eb !important;
+    background-color: #f0f2f5 !important;
+}
+
+.el-tooltip__trigger {
+    outline: none;
+}
+:deep(.el-breadcrumb__inner) {
+    color: #666 !important;
+}
+:deep(.el-breadcrumb__separator) {
+    color: #999 !important;
+}
+

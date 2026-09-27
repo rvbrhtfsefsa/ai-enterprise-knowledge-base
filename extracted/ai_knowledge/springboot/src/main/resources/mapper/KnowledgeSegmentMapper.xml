@@ -1,0 +1,56 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.KnowledgeSegmentMapper">
+
+    <select id="selectAll" resultType="com.example.entity.KnowledgeSegment">
+        select s.*, kb.name as knowledge_base_name, d.title as document_title
+        from `knowledge_segment` s
+        left join `knowledge_base` kb on s.knowledge_base_id = kb.id
+        left join `knowledge_document` d on s.document_id = d.id
+        <where>
+            <if test="knowledgeBaseId != null"> and s.knowledge_base_id = #{knowledgeBaseId}</if>
+            <if test="documentId != null"> and s.document_id = #{documentId}</if>
+            <if test="content != null"> and s.content like concat('%', #{content}, '%')</if>
+            <if test="vectorStatus != null"> and s.vector_status = #{vectorStatus}</if>
+        </where>
+        order by s.document_id desc, s.segment_index asc
+    </select>
+
+    <delete id="deleteById">
+        delete from `knowledge_segment`
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByDocumentId">
+        delete from `knowledge_segment`
+        where document_id = #{documentId}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.KnowledgeSegment" useGeneratedKeys="true">
+        insert into `knowledge_segment`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="knowledgeBaseId != null">knowledge_base_id,</if>
+            <if test="documentId != null">document_id,</if>
+            <if test="segmentIndex != null">segment_index,</if>
+            <if test="content != null">content,</if>
+            <if test="charCount != null">char_count,</if>
+            <if test="vectorStatus != null">vector_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="knowledgeBaseId != null">#{knowledgeBaseId},</if>
+            <if test="documentId != null">#{documentId},</if>
+            <if test="segmentIndex != null">#{segmentIndex},</if>
+            <if test="content != null">#{content},</if>
+            <if test="charCount != null">#{charCount},</if>
+            <if test="vectorStatus != null">#{vectorStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+</mapper>

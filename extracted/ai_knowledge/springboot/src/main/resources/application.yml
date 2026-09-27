@@ -1,0 +1,24 @@
+server:
+  port: 9090
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Root@12345
+    url: jdbc:mysql://localhost:3306/ai_knowledge?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+
+fileBaseUrl: http://localhost:${server.port}
+
+pgvector:
+  url: jdbc:postgresql://localhost:5432/ai_knowledge_vector
+  username: postgres
+  password: 123456
+  tableName: knowledge_segment_vector
+  dimension: 1024

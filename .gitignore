@@ -1,0 +1,74 @@
+# ==========================================================
+# AI 企业知识库 —— Git 忽略规则
+# ==========================================================
+
+# ---------- 依赖包 ----------
+node_modules/
+**/node_modules/
+jspm_packages/
+
+# ---------- 构建 / 打包产物 ----------
+target/
+dist/
+build/
+.vite/
+.cache/
+out/
+*.jar.original
+
+# ---------- 前端包管理器日志 ----------
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# ---------- IDE / 编辑器 ----------
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+*.swp
+*.swo
+
+# ---------- 操作系统垃圾文件 ----------
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ---------- 本地环境 & 敏感配置 ----------
+# 本地私有环境变量永远不要提交
+.env.local
+.env.*.local
+.env.production.local
+*.local
+*.key
+*.pem
+*.jks
+*.keystore
+secrets/
+credentials/
+application-local.yml
+application-dev.yml
+application-prod.yml
+
+# ---------- WorkBuddy 工作区数据 ----------
+.workbuddy/
+
+# ---------- 运行时上传目录 ----------
+# files/ 为运行时上传/生成的临时文件目录，保留仓库内置的示例文档
+ai_knowledge/files/*
+!ai_knowledge/files/.gitkeep
+!ai_knowledge/files/*.txt
+!ai_knowledge/files/*.docx
+!ai_knowledge/files/*.pdf
+!ai_knowledge/files/*.png
+!ai_knowledge/files/*.jpeg
+!ai_knowledge/files/*.jpg

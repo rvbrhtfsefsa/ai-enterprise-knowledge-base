@@ -1,0 +1,98 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.KnowledgeDocumentMapper">
+
+    <select id="selectAll" resultType="com.example.entity.KnowledgeDocument">
+        select d.*, kb.name as knowledge_base_name
+        from `knowledge_document` d
+        left join `knowledge_base` kb on d.knowledge_base_id = kb.id
+        <where>
+            <if test="title != null"> and d.title like concat('%', #{title}, '%')</if>
+            <if test="knowledgeBaseId != null"> and d.knowledge_base_id = #{knowledgeBaseId}</if>
+            <if test="parseStatus != null"> and d.parse_status = #{parseStatus}</if>
+            <if test="vectorStatus != null"> and d.vector_status = #{vectorStatus}</if>
+        </where>
+        order by d.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `knowledge_document`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.KnowledgeDocument" useGeneratedKeys="true">
+        insert into `knowledge_document`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="knowledgeBaseId != null">knowledge_base_id,</if>
+            <if test="title != null">title,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="fileType != null">file_type,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="parsedText != null">parsed_text,</if>
+            <if test="parseStatus != null">parse_status,</if>
+            <if test="parseTime != null">parse_time,</if>
+            <if test="vectorStatus != null">vector_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="knowledgeBaseId != null">#{knowledgeBaseId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+            <if test="fileType != null">#{fileType},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="parsedText != null">#{parsedText},</if>
+            <if test="parseStatus != null">#{parseStatus},</if>
+            <if test="parseTime != null">#{parseTime},</if>
+            <if test="vectorStatus != null">#{vectorStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.KnowledgeDocument">
+        update `knowledge_document`
+        <set>
+            <if test="knowledgeBaseId != null">
+                knowledge_base_id = #{knowledgeBaseId},
+            </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="fileName != null">
+                file_name = #{fileName},
+            </if>
+            <if test="fileUrl != null">
+                file_url = #{fileUrl},
+            </if>
+            <if test="fileType != null">
+                file_type = #{fileType},
+            </if>
+            <if test="fileSize != null">
+                file_size = #{fileSize},
+            </if>
+            <if test="parsedText != null">
+                parsed_text = #{parsedText},
+            </if>
+            <if test="parseStatus != null">
+                parse_status = #{parseStatus},
+            </if>
+            <if test="parseTime != null">
+                parse_time = #{parseTime},
+            </if>
+            <if test="vectorStatus != null">
+                vector_status = #{vectorStatus},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
