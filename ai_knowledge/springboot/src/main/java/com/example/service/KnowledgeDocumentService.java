@@ -12,23 +12,32 @@ import com.example.mapper.KnowledgeDocumentMapper;
 import com.example.mapper.KnowledgeSegmentMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class KnowledgeDocumentService {
 
-    private static final String FILE_PATH = System.getProperty("user.dir") + "/files/";
+    /**
+     * 文档文件根目录。
+     * 可通过 application.yml 的 file.base-path 配置（相对进程工作目录，也可填绝对路径），
+     * 默认 ./files/ —— 需与 FileController 保持一致，否则会出现「上传成功但解析失败」。
+     */
+    @Value("${file.base-path:./files/}")
+    private String FILE_PATH;
 
     @Resource
     private KnowledgeDocumentMapper knowledgeDocumentMapper;
@@ -36,6 +45,19 @@ public class KnowledgeDocumentService {
     private KnowledgeSegmentMapper knowledgeSegmentMapper;
     @Resource
     private PgVectorService pgVectorService;
+
+    /**
+     * 归一化为绝对路径（与 FileController 完全同款逻辑，两处必须保持一致）。
+     * Hutool 的 FileUtil 会把相对路径按 classpath 解析，因此这里统一以进程工作目录为基准转换。
+     */
+    @PostConstruct
+    public void initFilePath() {
+        File dir = new File(FILE_PATH);
+        if (!dir.isAbsolute()) {
+            dir = new File(System.getProperty("user.dir"), FILE_PATH);
+        }
+        FILE_PATH = Paths.get(dir.getAbsolutePath()).normalize().toString() + File.separator;
+    }
 
     public void add(KnowledgeDocument knowledgeDocument) {
         if (ObjectUtil.isEmpty(knowledgeDocument.getParseStatus())) {

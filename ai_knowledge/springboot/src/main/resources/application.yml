@@ -4,8 +4,10 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: Root@12345
+    username: ${MYSQL_USERNAME:root}
+    # 口令支持环境变量覆盖：export MYSQL_PASSWORD=你的密码
+    # 默认值仅为本地开发方便，部署到生产请务必通过环境变量注入，不要提交明文口令
+    password: ${MYSQL_PASSWORD:Root@12345}
     url: jdbc:mysql://localhost:3306/ai_knowledge?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
 
 mybatis:
@@ -16,9 +18,17 @@ mybatis:
 
 fileBaseUrl: http://localhost:${server.port}
 
+# 上传文件的存放目录。
+# 相对路径基于「后端进程的工作目录」；仓库自带的示例文件在 ai_knowledge/files/，
+# 因此后端应在 ai_knowledge/ 目录下启动（java -jar springboot/target/*.jar）。
+# 若想不受启动目录影响，可改成绝对路径，例如：D:/data/ai-knowledge-files/
+file:
+  base-path: ./files/
+
 pgvector:
   url: jdbc:postgresql://localhost:5432/ai_knowledge_vector
-  username: postgres
-  password: 123456
+  username: ${PG_USERNAME:postgres}
+  # 口令支持环境变量覆盖：export PG_PASSWORD=你的密码
+  password: ${PG_PASSWORD:123456}
   tableName: knowledge_segment_vector
   dimension: 1024

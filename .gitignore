@@ -49,8 +49,9 @@ Desktop.ini
 .env.*.local
 .env.production.local
 *.local
-*.key
-*.pem
+# 密钥类文件按路径限定忽略，避免误伤 src/ 下同名的资源文件
+config/*.key
+config/*.pem
 *.jks
 *.keystore
 secrets/
@@ -61,6 +62,10 @@ application-prod.yml
 
 # ---------- WorkBuddy 工作区数据 ----------
 .workbuddy/
+
+# ---------- Vite 运行期临时文件 ----------
+vite.config.js.timestamp-*
+.vite/deps_temp/
 
 # ---------- 运行时上传目录 ----------
 # files/ 为运行时上传/生成的临时文件目录，保留仓库内置的示例文档

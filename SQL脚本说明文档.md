@@ -28,7 +28,7 @@
 ## 二、导入 MySQL 业务数据（`ai_knowledge.sql`）
 
 1. 打开 **Navicat for MySQL**，新建连接，连上本地 MySQL：
-   - 主机 `localhost`、端口 `3306`、用户名 `root`、密码填你本地 MySQL 的密码（项目默认是 `123456`）。
+   - 主机 `localhost`、端口 `3306`、用户名 `root`、密码填你本地 MySQL 的密码（仓库 `application.yml` 里写的默认值是 `Root@12345`，**以你本机实际密码为准**）。
 2. 在连接上**新建数据库**：
    - 数据库名：`ai_knowledge`
    - 字符集：`utf8mb4`
@@ -63,19 +63,28 @@ ai_knowledge/springboot/src/main/resources/application.yml
 默认配置如下，**如果你本地的端口 / 账号 / 密码和下面不一样，就改这里对应的值**：
 
 ```yaml
-# MySQL 业务库
-url: jdbc:mysql://localhost:3306/ai_knowledge?...
-username: root
-password: 123456
+# MySQL 业务库（口令支持环境变量覆盖：export MYSQL_PASSWORD=你的密码）
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ai_knowledge?...
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:Root@12345}
 
-# PostgreSQL 向量库
+# PostgreSQL 向量库（口令支持环境变量覆盖：export PG_PASSWORD=你的密码）
 pgvector:
   url: jdbc:postgresql://localhost:5432/ai_knowledge_vector
-  username: postgres
-  password: 123456
+  username: ${PG_USERNAME:postgres}
+  password: ${PG_PASSWORD:123456}
   tableName: knowledge_segment_vector
   dimension: 1024
+
+# 上传文件目录：相对「后端进程工作目录」解析，
+# 后端需在 ai_knowledge/ 目录下启动，否则读不到仓库自带的 files/
+file:
+  base-path: ./files/
 ```
+
+> 上面的口令都只是**本机开发的默认值**，以你自己的实际密码为准；部署到生产请用环境变量注入，不要把明文口令提交到公开仓库。
 
 ---
 
